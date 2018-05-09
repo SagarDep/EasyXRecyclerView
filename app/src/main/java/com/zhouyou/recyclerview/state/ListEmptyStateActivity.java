@@ -37,7 +37,7 @@ public class ListEmptyStateActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         mRecyclerView = (XRecyclerView) this.findViewById(R.id.main_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setAutoMeasureEnabled(true);
+//        layoutManager.setAutoMeasureEnabled(true);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 

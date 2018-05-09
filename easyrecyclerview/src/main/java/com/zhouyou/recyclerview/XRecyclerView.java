@@ -14,10 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import com.zhouyou.recyclerview.listener.AppBarStateChangeListener;
 import com.zhouyou.recyclerview.refresh.ArrowRefreshHeader;
 import com.zhouyou.recyclerview.refresh.IMoreFooter;
 import com.zhouyou.recyclerview.refresh.IRefreshHeader;
-import com.zhouyou.recyclerview.listener.AppBarStateChangeListener;
 import com.zhouyou.recyclerview.refresh.LoadingMoreFooter;
 import com.zhouyou.recyclerview.refresh.ProgressStyle;
 
@@ -85,17 +85,15 @@ public class XRecyclerView extends RecyclerView {
 
     public XRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        init();//TODO 后期可以在这里添加解析attrs的相关操作，实现在xml里面简洁设置已定义动画效果等
     }
 
     private void init() {
-        if (pullRefreshEnabled) {
-            mRefreshHeader = new ArrowRefreshHeader(getContext());
-            mRefreshHeader.setProgressStyle(mRefreshProgressStyle);
-        }
-        LoadingMoreFooter moreFooter = new LoadingMoreFooter(getContext());
-        moreFooter.setProgressStyle(mLoadingMoreProgressStyle);
-        mRefreshFooter = moreFooter;
+        mRefreshHeader = new ArrowRefreshHeader(getContext());
+        mRefreshHeader.setProgressStyle(mRefreshProgressStyle);
+
+        mRefreshFooter= new LoadingMoreFooter(getContext());
+        mRefreshFooter.setProgressStyle(mLoadingMoreProgressStyle);
         mRefreshFooter.getFooterView().setVisibility(GONE);
     }
 
@@ -264,6 +262,9 @@ public class XRecyclerView extends RecyclerView {
         pullRefreshEnabled = enabled;
     }
 
+    /**
+     * 检查下拉刷新是否可用
+     */
     public boolean isPullRefreshEnabled() {
         return pullRefreshEnabled;
     }
@@ -404,12 +405,12 @@ public class XRecyclerView extends RecyclerView {
 //            int head_foot_items_Count = layoutManager.getItemCount();
 
            /* if (layoutManager.getChildCount() > 0
-                    && lastVisibleItemPosition >= head_foot_items_Count - 1 && 
-                    head_foot_items_Count > layoutManager.getChildCount() 
+                    && lastVisibleItemPosition >= head_foot_items_Count - 1 &&
+                    head_foot_items_Count > layoutManager.getChildCount()
                     && !isNoMore && mRefreshHeader.getState() < BaseRefreshHeader.STATE_REFRESHING) {*/
             if (layoutManager.getChildCount() > 0
-                    && lastVisibleItemPosition >= layoutManager.getItemCount() - 1 
-                   /* && layoutManager.getItemCount() > layoutManager.getChildCount() */ //解决屏幕不满足一屏无法加载更多的问题
+                    && lastVisibleItemPosition >= layoutManager.getItemCount() - 1
+                    /* && layoutManager.getItemCount() > layoutManager.getChildCount() */ //解决屏幕不满足一屏无法加载更多的问题
                     && !isNoMore && isEnabledScroll && mRefreshHeader.getState() < IRefreshHeader.STATE_REFRESHING) {
                 isLoadingData = true;
                 if (mRefreshFooter instanceof IMoreFooter) {

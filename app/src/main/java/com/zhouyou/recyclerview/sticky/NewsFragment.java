@@ -38,7 +38,7 @@ public class NewsFragment extends BaseFragment {
 
         //与StickyNestedScrollView嵌套必须设置下面两个属性 1 2 
         layoutManager.setSmoothScrollbarEnabled(true);
-        layoutManager.setAutoMeasureEnabled(true);
+//        layoutManager.setAutoMeasureEnabled(true);
 
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);

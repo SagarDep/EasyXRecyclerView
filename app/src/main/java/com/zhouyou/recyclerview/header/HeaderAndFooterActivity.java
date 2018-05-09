@@ -36,7 +36,7 @@ public class HeaderAndFooterActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_header_footer);
         mRecyclerView = (XRecyclerView) this.findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setAutoMeasureEnabled(true);
+//        layoutManager.setAutoMeasureEnabled(true);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 

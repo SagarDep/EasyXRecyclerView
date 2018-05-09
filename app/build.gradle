@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 27
+    buildToolsVersion '28.0.0 rc2'
 
     defaultConfig {
         applicationId "com.zhouyou.recyclerviewdemo"
         minSdkVersion 17
-        targetSdkVersion 23
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -26,14 +26,14 @@ android {
         abortOnError false
     }
 
-    configurations.all {
-        resolutionStrategy {//由于各个依赖库中版本不一致，有时会导致一些异常情况，故强制使用同一版本
-            force "com.android.support:recyclerview-v7:25.0.1"
-            force "com.android.support:appcompat-v7:25.0.1"
-            force "com.android.support:design:25.0.1"
-            force "com.android.support:support-vector-drawable:25.0.1"
-        }
-    }
+//    configurations.all {
+//        resolutionStrategy {//由于各个依赖库中版本不一致，有时会导致一些异常情况，故强制使用同一版本
+//            force "com.android.support:recyclerview-v7:25.0.1"
+//            force "com.android.support:appcompat-v7:25.0.1"
+//            force "com.android.support:design:25.0.1"
+//            force "com.android.support:support-vector-drawable:25.0.1"
+//        }
+//    }
 
     /*configurations.all {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
@@ -52,24 +52,28 @@ android {
         }
     }
 
-    android.applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            if (output.outputFile != null && output.outputFile.name.endsWith('.apk')) {
-                def name = "${rootDir}/apk/easyxrecyclerview_demo.apk"
-                output.outputFile = file(name)
-            }
-        }
-    }
+//    android.applicationVariants.all { variant ->
+//        variant.outputs.each { output ->
+//            if (output.outputFile != null && output.outputFile.name.endsWith('.apk')) {
+//                def name = "${rootDir}/apk/easyxrecyclerview_demo.apk"
+//                output.outputFile = file(name)
+//            }
+//        }
+//    }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile(name: 'smarttab-release', ext: 'aar')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation(name: 'smarttab-release', ext: 'aar')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
-    compile project(':easyrecyclerview')
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:support-vector-drawable:27.1.1'
+    implementation project(':easyrecyclerview')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:cardview-v7:27.1.1'
 }

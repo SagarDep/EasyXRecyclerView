@@ -2,7 +2,6 @@ package com.zhouyou.recyclerview;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,11 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.zhouyou.recyclerview.adapter.BaseRecyclerViewAdapter;
 import com.zhouyou.recyclerview.adapter.MyAdapter;
 import com.zhouyou.recyclerview.bean.TestBean;
-import com.zhouyou.recyclerview.adapter.BaseRecyclerViewAdapter;
 import com.zhouyou.recyclerview.refresh.ProgressStyle;
-import com.zhouyou.recyclerviewdemo.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +25,7 @@ import java.util.List;
  * 版本： v2.0<br>
  */
 public class LinearActivity extends BaseActivity {
-    private com.zhouyou.recyclerview.XRecyclerView mRecyclerView;
+    private XRecyclerView mRecyclerView;
     private MyAdapter mAdapter;
     private int times = 0;
 
@@ -35,12 +33,13 @@ public class LinearActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
-        
-        mRecyclerView = (com.zhouyou.recyclerview.XRecyclerView) this.findViewById(R.id.recyclerview);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setAutoMeasureEnabled(true);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
+
+        mRecyclerView = this.findViewById(R.id.recyclerview);
+
+        ////在xml中定义app:layoutManager="android.support.v7.widget.LinearLayoutManager"后就不用写这里了
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+//        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        mRecyclerView.setLayoutManager(layoutManager);
 
         //mRecyclerView.setRefreshProgressStyle(ProgressStyle.ClifeIndicator);
         //mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.ClifeIndicator);
@@ -48,11 +47,11 @@ public class LinearActivity extends BaseActivity {
         //mRecyclerView.setRefreshHeader((BaseRefreshHeader) RefreshLoadingManager.getManager().getCusRefreshHeader(this));
         //mRecyclerView.setLoadingMoreFooter((BaseLoadingFooter) RefreshLoadingManager.getManager().getCusLoadingFooter(this));
 
-        mRecyclerView.setLoadingMoreEnabled(true);
+
         mRecyclerView.setLoadingListener(new com.zhouyou.recyclerview.XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                Log.e("test","=======isRefreshing======="+mRecyclerView.isRefreshing());
+                Log.e("test", "=======isRefreshing=======" + mRecyclerView.isRefreshing());
                 times = 0;
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
@@ -78,9 +77,10 @@ public class LinearActivity extends BaseActivity {
                         //1.使用setListAll（覆盖数据）后就不需要再调用notifyDataSetChanged（）
                         //2.如果是addAll()追加
                         mAdapter.setListAll(list);
+
                         //mAdapter.notifyDataSetChanged();
                         mRecyclerView.refreshComplete();
-//                        mRecyclerView.setLoadingMoreEnabled(true);
+                        mRecyclerView.setLoadingMoreEnabled(true);
                     }
 
                 }, 2000);            //refresh data here
@@ -88,7 +88,7 @@ public class LinearActivity extends BaseActivity {
 
             @Override
             public void onLoadMore() {
-                Log.e("test","=======onLoadMore======="+mRecyclerView.isLoadingMore());
+                Log.e("test", "=======onLoadMore=======" + mRecyclerView.isLoadingMore());
                 if (times < 2) {
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
@@ -139,14 +139,14 @@ public class LinearActivity extends BaseActivity {
             }
         });
 
-        //用框架里面的adapter时不需要再建立全局集合存放数据了，数据都和adapter绑定了，里面自带泛型集合
-        //如果你外面还建立一个集合，那相当于占用内存两份了。。
-        List<TestBean> listData = new ArrayList<TestBean>();
-
         //方式四对应的初始化适配器   也可采用下面的构造方式创建对象  （自己选择）
         //这种方式一定要先setAdapter然后才setListAll（）设置数据
         mAdapter = new MyAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
+
+        //用框架里面的adapter时不需要再建立全局集合存放数据了，数据都和adapter绑定了，里面自带泛型集合
+        //如果你外面还建立一个集合，那相当于占用内存两份了。。
+        List<TestBean> listData = new ArrayList<TestBean>();
 
         /****讲解*****/
         //1.使用setListAll（覆盖数据）后就不需要再调用notifyDataSetChanged（）
@@ -160,28 +160,23 @@ public class LinearActivity extends BaseActivity {
         //mAdapter = new MyAdapter(this, R.layout.item);
 
 
-        //设置item事件监听
+        //设置item事件监听,
         mAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener<TestBean>() {
             @Override
             public void onItemClick(View view, TestBean item, int position) {
-                Toast.makeText(getApplicationContext(),"我是item "+position,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "方式二：我是item " + position, Toast.LENGTH_SHORT).show();
             }
         });
 
-      
-    }
-    
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(mRecyclerView !=null){
-            mRecyclerView.setRefreshing(true);
-        }
+
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStart() {
+        super.onStart();
+        if (mRecyclerView != null) {
+            mRecyclerView.setRefreshing(true);
+        }
     }
 
     @Override
@@ -284,5 +279,5 @@ public class LinearActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
 }

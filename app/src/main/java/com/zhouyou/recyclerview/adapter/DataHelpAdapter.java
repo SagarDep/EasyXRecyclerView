@@ -8,7 +8,7 @@ import com.zhouyou.recyclerviewdemo.R;
 
 /**
  * <p>描述：展示数据规范接口使用适配器</p>
- *
+ * <p>
  * 作者： zhouyou<br>
  * 日期： 2016/10/31 16:24<br>
  * 版本： v2.0<br>
@@ -20,6 +20,6 @@ public class DataHelpAdapter extends com.zhouyou.recyclerview.adapter.HelperRecy
 
     @Override
     protected void HelperBindData(HelperRecyclerViewHolder viewHolder, int position, TestBean item) {
-        viewHolder.setText(R.id.tv,item.getName()).setVisible(R.id.iv,false).setImageResource(R.id.image, MakePicUtil.makePic(position));
+        viewHolder.setText(R.id.tv, item.getName()).setVisible(R.id.iv, false).setImageResource(R.id.image, MakePicUtil.makePic(position));
     }
 }

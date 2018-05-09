@@ -40,7 +40,7 @@ public class HorizontalHeaderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recyclerview);
         mRecyclerView = (XRecyclerView) this.findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setAutoMeasureEnabled(true);
+//        layoutManager.setAutoMeasureEnabled(true);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
@@ -58,7 +58,7 @@ public class HorizontalHeaderActivity extends AppCompatActivity {
         //View header = LayoutInflater.from(this).inflate(R.layout.recyclerview_header, (ViewGroup) findViewById(android.R.id.content), false);
         View header = LayoutInflater.from(this).inflate(R.layout.horizontal_recyclerview, (ViewGroup) findViewById(android.R.id.content), false);
         LinearLayoutManager header_layoutManager = new LinearLayoutManager(this);
-        header_layoutManager.setAutoMeasureEnabled(true);
+//        header_layoutManager.setAutoMeasureEnabled(true);
         header_layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         RecyclerView headerRecyclerView= (RecyclerView) header.findViewById(R.id.head_recyclerview);
         headerRecyclerView.setLayoutManager(header_layoutManager);
